@@ -1,0 +1,33 @@
+<div class="Aligner-h">
+  <div class="Aligner-item">
+    <h1>Welcome {{ user }}!</h1>
+    <div class="cards">
+      <mat-card *ngIf="isAdmin" routerLink="/history">
+        <mat-card-title>
+          <h3><i class="material-icons md-36">dashboard</i> History</h3>
+        </mat-card-title>
+        <mat-card-content>
+          <p>View work history.</p>
+        </mat-card-content>
+      </mat-card>
+      <mat-card *ngIf="isAdmin" routerLink="/statistics">
+        <mat-card-title>
+          <h3><i class="material-icons md-36">show_chart</i> Statistics</h3>
+        </mat-card-title>
+        <mat-card-content>
+          <p>View statistics.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="wide-cards" style="padding-top: 1em;">
+      <mat-card routerLink="/todo">
+        <mat-card-title>
+          <h3><i class="material-icons md-36">list</i> To Do</h3>
+        </mat-card-title>
+        <mat-card-content>
+          <p>View your to do list.</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

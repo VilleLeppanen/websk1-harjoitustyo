@@ -1,0 +1,23 @@
+h1 {
+  text-align: center;
+}
+
+mat-card:hover,
+mat-card:active {
+  box-shadow: 1px 1px 6px black;
+}
+
+.cards {
+  width: 4fr;
+  text-align: center;
+}
+.wide-cards {
+  width: 1fr;
+  text-align: center;
+}
+
+@media (min-width: 30em) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

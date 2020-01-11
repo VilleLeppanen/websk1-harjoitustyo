@@ -1,0 +1,6 @@
+::ng-deep .style-succes {
+  background-color: #4caf50;
+}
+::ng-deep .style-warning {
+  background-color: #f44336;
+}

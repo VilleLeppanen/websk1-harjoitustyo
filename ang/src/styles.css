@@ -1,0 +1,103 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  margin: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+/* ALIGN */
+/* vertical */
+.Aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30em;
+  width: 100%;
+}
+/* horizontal */
+.Aligner-h {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 30em;
+  /* width: 100%; */
+}
+
+.Aligner-item {
+  max-width: 50%;
+}
+
+.centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1em;
+}
+
+#inline {
+  display: inline;
+}
+
+/* BTN CIRCLE */
+.big-circle {
+  height: 10em;
+  width: 10em;
+  border: none;
+  color: white;
+  text-align: center;
+  font-size: 2rem;
+  font: bold;
+  border-radius: 50%;
+  overflow: hidden;
+  outline-style: none;
+}
+.active-item:hover {
+  box-shadow: 1px 1px 6px black;
+}
+.active-item:active {
+  box-shadow: 2px 2px 12px black;
+}
+
+/* CARD */
+.cards {
+  display: grid;
+  gap: 1em;
+}
+.wide-cards {
+  display: grid;
+  gap: 1em;
+}
+
+/*  */
+.icon {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+#container {
+  top: 64px !important;
+}
+@media (max-width: 599px) {
+  #container {
+    top: 56px !important;
+  }
+}
+
+.material-icons.md-18 {
+  font-size: 18px;
+}
+.material-icons.md-24 {
+  font-size: 24px;
+}
+.material-icons.md-36 {
+  font-size: 36px;
+}
+.material-icons.md-48 {
+  font-size: 48px;
+}

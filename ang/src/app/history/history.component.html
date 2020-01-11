@@ -1,0 +1,81 @@
+<div class="centered">
+  <form [formGroup]="searchForm" (ngSubmit)="_getLeimaukset(searchForm.value)">
+    <div class="btn-group">
+      <mat-form-field>
+        <mat-label>Select employee</mat-label>
+        <mat-select formControlName="henkilo">
+          <mat-option [value]="henk.Henkilo" *ngFor="let henk of henkilot">
+            {{ henk.Henkilo }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      |
+      <mat-form-field>
+        <input
+          class="form-control"
+          formControlName="date1"
+          matInput
+          [matDatepicker]="picker1"
+          placeholder="Choose begin date"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      |
+      <mat-form-field>
+        <input
+          class="form-control"
+          formControlName="date2"
+          matInput
+          [matDatepicker]="picker2"
+          placeholder="Choose end date"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker2"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-button type="submit">Find</button>
+    </div>
+  </form>
+</div>
+
+<div class="centered">
+  <table mat-table [dataSource]="leimaukset" matSort class="mat-elevation-z8">
+    <!-- Henkilo Column -->
+    <ng-container matColumnDef="Henkilo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.Henkilo }}</td>
+    </ng-container>
+
+    <!-- Alkoipvm Column -->
+    <ng-container matColumnDef="Alkoi">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Start time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Alkoi | date: "dd.MM.yyyy hh:mm:ss" }}
+      </td>
+    </ng-container>
+
+    <!-- Paattyipvm Column -->
+    <ng-container matColumnDef="Paattyi">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>End time</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.Paattyi | date: "dd.MM.yyyy hh:mm:ss" }}
+      </td>
+    </ng-container>
+
+    <!-- Paattyiklo Column -->
+    <ng-container matColumnDef="Kesto">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Kesto</th>
+      <td mat-cell *matCellDef="let element">{{ element.Kesto }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>

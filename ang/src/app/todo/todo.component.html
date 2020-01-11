@@ -1,0 +1,44 @@
+<div class="Aligner-h">
+  <div>
+    <mat-form-field class="field">
+      <input
+        #valueTodo
+        matInput
+        (keyup.enter)="addNewTodo(valueTodo.value); valueTodo.value = ''"
+        (blur)="addNewTodo(valueTodo.value); valueTodo.value = ''"
+        placeholder="Write what you to do"
+      />
+    </mat-form-field>
+    <button mat-mini-fab (click)="addNewTodo(valueTodo.value)">
+      <i class="material-icons">add</i>
+    </button>
+    <button
+      *ngIf="deleteTodo.length > 0"
+      mat-mini-fab
+      color="warn"
+      (click)="clearDeleteList()"
+    >
+      <i class="material-icons">delete</i>
+    </button>
+  </div>
+
+  <mat-list #todoist class="todolist">
+    <mat-list-item *ngFor="let todo of todolist" class="list">
+      <mat-checkbox
+        #checkbox
+        color="primary"
+        (change)="
+          todoToDeleteList({
+            Status: checkbox.checked,
+            Data: {
+              Henkilo: todo.Henkilo,
+              Tehtava: todo.Tehtava
+            }
+          })
+        "
+      >
+        {{ todo.Tehtava }}
+      </mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+</div>
