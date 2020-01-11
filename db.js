@@ -1,11 +1,11 @@
 const mysql = require("mysql");
 
 const connection = mysql.createConnection({
-  host: "webskmysql.mysql.database.azure.com",
-  user: "webskadmin@webskmysql",
-  password: "omani123!",
-  database: "websk",
-  port: 3306
+  host: "",
+  user: "",
+  password: "",
+  database: "",
+  port: 
 });
 
 connection.connect(err => {
