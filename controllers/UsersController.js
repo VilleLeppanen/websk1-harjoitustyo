@@ -5,7 +5,9 @@ const secret = config.secret;
 const db = require("../db");
 
 const UserController = {
-  // uuden käyttäjän rekisteröinti
+  /**
+   * uuden käyttäjän rekisteröinti
+   */
   registerUser: function(req, res, next) {
     console.log(req.body);
 
@@ -13,10 +15,8 @@ const UserController = {
     const hashedPassword = bcrypt.hashSync(req.body.password, 8);
 
     const query = `
-            INSERT INTO 
-            user (username, password, isadmin) 
+            INSERT INTO user (username, password, isadmin) 
             VALUES ('${req.body.username}', '${hashedPassword}', ${req.body.isadmin});`;
-
     console.log(query);
 
     db.query(query, (err, results, fields) => {
@@ -40,7 +40,9 @@ const UserController = {
     });
   },
 
-  // olemassa olevan käyttäjän autentikaatio
+  /**
+   * olemassa olevan käyttäjän autentikaatio
+   */
   authenticateUser: function(req, res, next) {
     const query = `SELECT * FROM user WHERE username = '${req.body.username}';`;
     console.log(query);

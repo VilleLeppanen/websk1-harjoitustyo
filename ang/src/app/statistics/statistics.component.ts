@@ -17,11 +17,13 @@ export class StatisticsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // henkilöiden haku ja niiden lasku
     this.kulunvalService.getHenkilos().subscribe(res => {
       console.log("Henkilöitä on " + res.length);
       this.countHenkilos = res.length;
     });
 
+    // todo haku ja niiden lasku
     this.todoService.getAllTodo().subscribe(res => {
       console.log("Tehtäviä on " + res.length);
       this.countTodos = res.length;

@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit {
+  // kirjautumislomake
   loginForm = new FormGroup({
     username: new FormControl(""),
     password: new FormControl("")
@@ -16,15 +17,18 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router) {}
 
+  // kirjautuminen
   onSubmit(user): void {
+    // onko kentät tyhjiä
     if (user.username.length === 0 || user.password.length === 0) {
       alert("Syötä käyttäjätunnus ja salasana!");
     } else {
+      // login metodin kutsu
       this.authService.login(user.username, user.password).subscribe(result => {
         if (result.token) {
           // jos saadaan token
           console.log(result);
-          this.router.navigate(["home"]);
+          this.router.navigate(["home"]); // ok
         } else {
           alert(result.message);
         }

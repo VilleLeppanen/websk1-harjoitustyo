@@ -17,7 +17,6 @@ export class FrameComponent implements OnInit {
   public isAdmin: Observable<number> = this.authService.isAdmin();
   public user: Observable<string> = this.authService.getUsername();
 
-  private clockSubscription: Subscription; // kellon tilaus
   private timeSubscription: Subscription; // aikaa työskennelty tilaus
 
   public workStatus = false;
@@ -37,7 +36,6 @@ export class FrameComponent implements OnInit {
   ) {}
 
   /*** authService ***/
-
   logout(): void {
     this.authService.logout();
     this.router.navigate(["login"]);
@@ -55,6 +53,7 @@ export class FrameComponent implements OnInit {
   /*** kulunvalService ***/
   // Työn aloitus. Tallentaa käyttäjän nimen, pvm ja klo.
   startWork() {
+    // luodaan startTime ja tallennetaan se l-storageen
     this.startTime = new Date();
     localStorage.setItem(
       this.user + "start",
@@ -90,6 +89,7 @@ export class FrameComponent implements OnInit {
       }
     );
 
+    // snackbar viesti
     this.openSnackBar("Work started at " + params.Alkoi, "style-succes");
     this.workStatus = true;
   }
@@ -120,6 +120,8 @@ export class FrameComponent implements OnInit {
         console.log("Error", error);
       }
     );
+
+    // snackbar viesti
     this.openSnackBar("Work ended at " + params.Paattyi, "style-succes");
 
     // ajan näyttö piiloon
@@ -130,6 +132,7 @@ export class FrameComponent implements OnInit {
   // onko sinne tallennettu aika ja asettaa juoksevan ajan näkyviin.
   checkStart(): void {
     try {
+      // kaatuu tässä jos ei löydy user - siksi try
       if (
         this.user === JSON.parse(localStorage.getItem(this.user + "start")).user
       ) {
@@ -166,6 +169,7 @@ export class FrameComponent implements OnInit {
   }
 
   /*** Dialog ***/
+  // varmistaa työn lopetuksen
   openDialog() {
     const dialogRef = this.dialog.open(DialogComponent);
 

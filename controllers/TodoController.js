@@ -1,12 +1,15 @@
 const db = require("../db");
 
 const KulunvalvontaController = {
+  /**
+   * Henkilön todo listan haku
+   */
   getTodo: function(req, res, next) {
-    let Henkilo = req.query.Henkilo || "%";
-    console.log("Getting todos");
+    let Henkilo = req.query.Henkilo || "%"; // jos Henkilo ei toimiteta hakee kaikki
+    console.log("Getting todo");
 
     query = `SELECT * FROM todo WHERE Henkilo LIKE '${Henkilo}';`;
-    console.log(query);
+    // console.log(query);
 
     db.query(query, (error, results, fields) => {
       if (error) console.log(error);
@@ -14,6 +17,9 @@ const KulunvalvontaController = {
     });
   },
 
+  /**
+   * todo lisäys.
+   */
   addTodo: function(req, res, next) {
     let Henkilo = req.body.Henkilo || "%";
     let Tehtava = req.body.Tehtava || "%";
@@ -28,6 +34,9 @@ const KulunvalvontaController = {
     });
   },
 
+  /**
+   * todo poisto
+   */
   deleteTodo: function(req, res, next) {
     let Henkilo = req.body.Henkilo || "%";
     let Tehtava = req.body.Tehtava || "%";

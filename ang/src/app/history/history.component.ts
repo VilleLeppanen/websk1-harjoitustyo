@@ -12,6 +12,7 @@ import { formatDate } from "@angular/common";
   styleUrls: ["./history.component.css"]
 })
 export class HistoryComponent implements OnInit {
+  // taulukon määrittelyä
   displayedColumns: string[] = ["Henkilo", "Alkoi", "Paattyi", "Kesto"];
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -19,6 +20,7 @@ export class HistoryComponent implements OnInit {
   leimaukset: MatTableDataSource<Kulunvalvonta>;
   henkilot: Array<User> = [];
 
+  // uusi formgroup
   searchForm = new FormGroup({
     henkilo: new FormControl(""),
     date1: new FormControl(new Date()),
@@ -27,6 +29,7 @@ export class HistoryComponent implements OnInit {
 
   constructor(private kulunvalService: KulunvalService) {}
 
+  // leimausten haku. parametit formgropista
   _getLeimaukset(formdata): void {
     if (formdata.date1) {
       formdata.date1 = formatDate(formdata.date1, "yyyy-MM-dd", "en");
@@ -37,6 +40,7 @@ export class HistoryComponent implements OnInit {
 
     console.log(formdata);
 
+    // tilataan data matTableen
     this.kulunvalService
       .getLeimaukset({
         Henkilo: formdata.henkilo,
@@ -49,6 +53,7 @@ export class HistoryComponent implements OnInit {
       });
   }
 
+  // henkiöiden haku pudotusvalikkoon
   _getHenkilos(): void {
     this.kulunvalService
       .getHenkilos()
@@ -56,8 +61,13 @@ export class HistoryComponent implements OnInit {
   }
 
   ngOnInit() {
+    // uusi today päivämäärä
     this.today = formatDate(new Date(), "yyyy-MM-dd", "en");
+
+    // hakee automaattisesti sen päivän
     this._getLeimaukset({ henkilo: "", date1: this.today, date2: this.today });
+
+    // henkilöiden haku
     this._getHenkilos(); // henkilöt taulukkoon
   }
 }

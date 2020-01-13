@@ -23,8 +23,8 @@ export class TodoComponent implements OnInit {
   addNewTodo(Tehtava: string): void {
     if (Tehtava) {
       this.todoService.addTodo(Tehtava).subscribe(res => {
-        console.log(res);
-        this.getTodos();
+        console.log("RES: " + res);
+        this.getTodos(); // päivitetään lista
       });
     }
   }
@@ -34,20 +34,25 @@ export class TodoComponent implements OnInit {
     console.log(Henkilo + Tehtava);
 
     this.todoService.deleteTodo({ Henkilo, Tehtava }).subscribe(res => {
-      console.log(res);
-      this.getTodos();
+      console.log("RES: " + res);
+      this.getTodos(); // päivitetään lista
     });
   }
 
   // lisää tai poistaa todoon delete listasta.
   todoToDeleteList(todo) {
     if (todo.Status) {
-      // true kun checked ja false uncheck
+      // kun todo checkbox chekataan
       console.log("Push new.");
+
+      // lisäys taulukkoon
       this.deleteTodo.push(todo.Data);
       console.log(this.deleteTodo);
     } else {
+      // kun todo checkbox unchekataan
       console.log("Filter unchecked.");
+
+      // poisto taulukosta
       this.deleteTodo = this.filterArray(this.deleteTodo, todo.Data);
       console.log(this.deleteTodo);
     }
@@ -62,6 +67,7 @@ export class TodoComponent implements OnInit {
 
   // poistaa valitut todoot.
   clearDeleteList() {
+    // listan läpikäynti ja chekattujen poisto
     this.deleteTodo.forEach(todo => {
       console.log("Deleting: " + todo.Tehtava);
       this.delTodo(todo.Henkilo, todo.Tehtava);

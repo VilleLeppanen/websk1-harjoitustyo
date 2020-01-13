@@ -1,13 +1,16 @@
 const db = require("../db");
 
 const KulunvalvontaController = {
+  /**
+   * Hakee leimaukset annettujen ehtojen mukaan.
+   */
   getKulunvalvonta: function(req, res, next) {
-    let query;
+    // jos tyhjät niin oletuksena toiset arvot.
     let Henkilo = req.query.Henkilo || "%";
     let Pvmfrom = req.query.Pvmfrom || "2000-01-01";
     let Pvmto = req.query.Pvmto || "3000-01-01";
 
-    query = `
+    let query = `
     SELECT 
       *
     FROM 
@@ -22,15 +25,9 @@ const KulunvalvontaController = {
     });
   },
 
-  getAll: function(req, res, next) {
-    query = `SELECT * FROM kulunvalvonta;`;
-
-    db.query(query, (error, results, fields) => {
-      if (error) console.log(error);
-      res.json(results);
-    });
-  },
-
+  /**
+   * Henkilöiden distinct haku, jotka ovat leimanneet työlle
+   */
   getHenkilos: function(req, res, next) {
     query = `SELECT DISTINCT(Henkilo) FROM kulunvalvonta;`;
 
@@ -40,13 +37,16 @@ const KulunvalvontaController = {
     });
   },
 
+  /**
+   * Työn aloitus. Tallentaa kantaan henkilön ja alkoi pvm.
+   */
   startWork: function(req, res, next) {
     let Henkilo = req.body.Henkilo;
     let Alkoi = req.body.Alkoi;
 
     query = `INSERT INTO kulunvalvonta (Henkilo, Alkoi) VALUES ('${Henkilo}', '${Alkoi}');`;
 
-    console.log(query);
+    // console.log(query);
 
     db.query(query, (error, results, fields) => {
       if (error) console.log(error);
@@ -54,6 +54,9 @@ const KulunvalvontaController = {
     });
   },
 
+  /**
+   * Lisää päättyi aika ja sitten kesto (alkoi vs päättyi)
+   */
   endWork: function(req, res, next) {
     let Henkilo = req.body.Henkilo;
     let Alkoi = req.body.Alkoi;
@@ -62,6 +65,7 @@ const KulunvalvontaController = {
     query1 = `UPDATE kulunvalvonta SET Paattyi = '${Paattyi}' WHERE Henkilo = '${Henkilo}' AND Alkoi = '${Alkoi}';`;
     query2 = `UPDATE kulunvalvonta SET Kesto = timediff(Paattyi, Alkoi) WHERE Henkilo = '${Henkilo}' AND Alkoi = '${Alkoi}';`;
 
+    // transaktio alkaa
     db.beginTransaction(err => {
       if (err) throw err;
 
@@ -85,20 +89,11 @@ const KulunvalvontaController = {
               conn.rollback(() => {
                 throw error;
               });
-            console.log("Transaction success!");
+            // console.log("Transaction success!");
             res.send(results);
           });
         });
       });
-    });
-  },
-
-  deleteHenkilo: function(req, res, next) {
-    query = "DELETE FROM kulunvalvonta WHERE (`Id` = '9999');";
-
-    db.query(query, (error, results, fields) => {
-      if (error) console.log(error);
-      res.send(results);
     });
   }
 };

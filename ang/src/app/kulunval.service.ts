@@ -14,9 +14,10 @@ const headers = new HttpHeaders({ "Content-Type": "application/json" });
 export class KulunvalService {
   private apiUrl = "https://kulunvalvonta.azurewebsites.net/kval"; // osoite
   private clock: Observable<Date>;
-  private time: Observable<number>;
+
 
   constructor(private http: HttpClient, private authService: AuthService) {
+    // luodaan sekuttikello
     this.clock = interval(1000).pipe(
       map(tick => new Date()),
       share()
@@ -29,6 +30,7 @@ export class KulunvalService {
     return error.message || error;
   }
 
+  // palauttaa kellon Observablena
   getClock(): Observable<Date> {
     return this.clock;
   }
@@ -48,40 +50,48 @@ export class KulunvalService {
       .pipe(catchError(this.handleError));
   }
 
+  // henkilöiden haku
   getHenkilos(): Observable<any[]> {
-    console.log(this.apiUrl + "/gethenkilos");
+    const url = this.apiUrl + "/gethenkilos";
+    console.log("GET: " + url);
 
     return this.http
-      .get<any[]>(this.apiUrl + "/gethenkilos")
+      .get<any[]>(url)
       .pipe(catchError(this.handleError));
   }
 
+  // työn aloitus
   addStartTime(params): Observable<Kulunvalvonta> {
-    console.log("POST: " + this.apiUrl + "/start");
+    const url = this.apiUrl + "/start";
+    console.log("POST: " + url);
+
+    // token headerissa
     const tokenheaders = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         "x-access-token": this.authService.token
       })
     };
-    console.log(params);
+    // console.log(params);
 
     return this.http
-      .post<Kulunvalvonta>(`${this.apiUrl}/start`, params, tokenheaders)
+      .post<Kulunvalvonta>(url, params, tokenheaders)
       .pipe(catchError(this.handleError));
   }
 
+  // lopetus ajan lisäys
   addEndTime(params): Observable<Kulunvalvonta> {
     const url = this.apiUrl + "/end";
     console.log("POST: " + url);
 
+    // token headerissa
     const tokenheaders = {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         "x-access-token": this.authService.token
       })
     };
-    console.log(params);
+    // console.log(params);
 
     return this.http
       .post<Kulunvalvonta>(url, params, tokenheaders)

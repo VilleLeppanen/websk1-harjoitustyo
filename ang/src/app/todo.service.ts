@@ -25,8 +25,6 @@ export class TodoService {
     return error.message || error;
   }
 
-  /*** ***/
-
   // Henkilön todo haku.
   getTodo(): Observable<ToDo[]> {
     console.log("GET: " + this.apiUrl);
@@ -36,7 +34,7 @@ export class TodoService {
       .pipe(catchError(this.handleError));
   }
 
-  // Henkilön todo haku.
+  // kaikkien todo haku.
   getAllTodo(): Observable<ToDo[]> {
     console.log("GET: " + this.apiUrl);
 
